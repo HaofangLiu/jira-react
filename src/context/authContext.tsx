@@ -1,10 +1,22 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { User, UserLogin, authContext } from "model/ProjectListModel";
-import { login, register, logout } from "context/auth-provider";
+import { login, register, logout, getToken } from "context/auth-provider";
+import { http } from "utils/http";
+import { useMount } from "utils";
 
 const AuthContext = createContext<authContext | undefined>(undefined);
 
 AuthContext.displayName = "AuthContext";
+
+const setupUserOnRefresh = async () => {
+  let user = null;
+  const token = getToken();
+  if (token) {
+    const data = await http("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -19,6 +31,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logoutUser = () => {
     logout().then(() => setUser(null));
   };
+
+  useMount(() => {
+    setupUserOnRefresh().then((data) => {
+      setUser(data);
+    });
+  });
 
   return (
     <AuthContext.Provider
