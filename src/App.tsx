@@ -1,15 +1,14 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import ProjectList from "./views/project-list/index";
-import { LoginComp } from "views/login";
+import { UserLoginOrReigster } from "views/unauthentication";
+import { useAuth } from "context/authContext";
+import { AuthedPage } from "views/authentication";
 
 function App() {
+  const { user } = useAuth();
+
   return (
-    <div className="App">
-      <LoginComp />
-      {/* <ProjectList /> */}
-    </div>
+    <div className="App">{user ? <AuthedPage /> : <UserLoginOrReigster />}</div>
   );
 }
 

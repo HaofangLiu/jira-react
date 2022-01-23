@@ -1,15 +1,15 @@
 import { useAuth } from "context/authContext";
 import React, { FormEvent } from "react";
 
-export const LoginComp = () => {
+export const RegisterComp = () => {
   // const url = process.env.REACT_APP_API_URL;
-  const { loginUser, user } = useAuth();
+  const { registerUser, user } = useAuth();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const username = (e.currentTarget.elements[0] as HTMLInputElement).value;
     const password = (e.currentTarget.elements[1] as HTMLInputElement).value;
-    loginUser({ username, password });
+    registerUser({ username, password });
   };
 
   return (
@@ -23,7 +23,7 @@ export const LoginComp = () => {
         <label htmlFor="password">密码</label>
         <input type="text" id="password" />
       </div>
-      <button type="submit">登录</button>
+      <button type="submit">注册</button>
     </form>
   );
 };

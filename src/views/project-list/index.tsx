@@ -13,7 +13,7 @@ const ProjectList = () => {
   const [users, setUsers] = useState([]);
   const debounceObj = useDebounce(params, 1000);
 
-  const url = process.env.REACT_APP_JSON_SERVER;
+  const url = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetch(`${url}/projects?${qs.stringify(cleanObject(debounceObj))}`)
