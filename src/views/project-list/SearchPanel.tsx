@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { paramsInterface, User } from "model/ProjectListModel";
+import { Input, Select } from "antd";
 
 interface searchPanelProps {
   users: User[];
@@ -11,26 +12,24 @@ export const SearchPancel = (props: searchPanelProps) => {
   const { params, setParams, users } = props;
 
   return (
-    <form>
-      <input
+    <>
+      <Input
         type="text"
         value={params.name}
         onChange={(event) => setParams({ ...params, name: event.target.value })}
       />
-      <select
-        name="user-dropdown"
+      <Select
         id="user-dropdown"
-        onChange={(event) =>
-          setParams({ ...params, personId: event.target.value })
-        }
+        placeholder="Select a person"
+        onChange={(val) => setParams({ ...params, personId: val })}
       >
-        <option value="">负责人</option>
+        <Select.Option value="">全部</Select.Option>
         {users.map((user) => (
-          <option key={user.id} value={user.id}>
+          <Select.Option key={user.id} value={user.id}>
             {user.name}
-          </option>
+          </Select.Option>
         ))}
-      </select>
-    </form>
+      </Select>
+    </>
   );
 };
